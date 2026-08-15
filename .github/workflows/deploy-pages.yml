@@ -27,16 +27,20 @@ jobs:
         with:
           node-version: "20"
           cache: npm
-          cache-dependency-path: fashion-app/frontend/package-lock.json
+          cache-dependency-path: magic-markdown-fe/package-lock.json
 
-      - name: Build frontend
-        working-directory: fashion-app/frontend
+      - name: Build ATELIER frontend (Lovable SPA)
+        working-directory: magic-markdown-fe
         env:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
           VITE_BASE: /TaylorAI/
         run: |
           npm ci
           npm run build
+          CLIENT="dist/client"
+          test -f "$CLIENT/_shell.html"
+          cp "$CLIENT/_shell.html" "$CLIENT/index.html"
+          cp "$CLIENT/_shell.html" "$CLIENT/404.html"
 
       - uses: actions/configure-pages@v5
         with:
@@ -44,7 +48,7 @@ jobs:
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: fashion-app/frontend/dist
+          path: magic-markdown-fe/dist/client
 
       - id: deployment
         uses: actions/deploy-pages@v4

@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: fashion-app/frontend
+        working-directory: magic-markdown-fe
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: npm
-          cache-dependency-path: fashion-app/frontend/package-lock.json
+          cache-dependency-path: magic-markdown-fe/package-lock.json
       - run: npm ci
       - run: npm run build
         env:

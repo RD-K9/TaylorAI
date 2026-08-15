@@ -6,11 +6,19 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// GitHub Pages: set VITE_BASE=/TaylorAI/ in CI → SPA static shell, no Nitro/Cloudflare worker.
+// Lovable / local default: leave VITE_BASE unset → Nitro cloudflare-module (unchanged).
+const pagesBase = process.env.VITE_BASE || "/";
+const isGitHubPages = Boolean(process.env.VITE_BASE && process.env.VITE_BASE !== "/");
+
 export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
+    ...(isGitHubPages ? { spa: { enabled: true } } : {}),
   },
+  nitro: isGitHubPages ? false : undefined,
   vite: {
+    base: pagesBase,
     server: {
       proxy: {
         "/api": {
