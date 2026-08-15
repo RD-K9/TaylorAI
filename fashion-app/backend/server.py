@@ -22,7 +22,7 @@ app = Flask(__name__, static_folder=None)
 
 origins_raw = os.getenv(
     "FRONTEND_ORIGIN",
-    "http://localhost:5173,http://127.0.0.1:5173,http://localhost:8080,http://127.0.0.1:8080,http://localhost:4173",
+    "http://localhost:5173,http://127.0.0.1:5173,http://localhost:8080,http://127.0.0.1:8080,http://localhost:4173,https://rd-k9.github.io",
 )
 CORS(app, origins=[o.strip() for o in origins_raw.split(",") if o.strip()])
 
