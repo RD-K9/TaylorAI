@@ -25,19 +25,26 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: npm
           cache-dependency-path: magic-markdown-fe/package-lock.json
 
-      - name: Build ATELIER frontend (Lovable SPA)
+      - name: Install dependencies
+        working-directory: magic-markdown-fe
+        run: npm ci --no-fund --no-audit
+
+      - name: Build ATELIER SPA
         working-directory: magic-markdown-fe
         env:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
           VITE_BASE: /TaylorAI/
+        run: npm run build
+
+      - name: Prepare Pages artifact
+        working-directory: magic-markdown-fe
         run: |
-          npm ci
-          npm run build
           CLIENT="dist/client"
+          ls -la "$CLIENT"
           test -f "$CLIENT/_shell.html"
           cp "$CLIENT/_shell.html" "$CLIENT/index.html"
           cp "$CLIENT/_shell.html" "$CLIENT/404.html"
