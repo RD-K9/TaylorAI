@@ -14,13 +14,11 @@ jobs:
         working-directory: magic-markdown-fe
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: "22"
-          cache: npm
-          cache-dependency-path: magic-markdown-fe/package-lock.json
-      - run: npm ci --no-fund --no-audit
-      - run: npm run build
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run build
         env:
           VITE_BASE: /TaylorAI/
 
