@@ -1,0 +1,22 @@
+# Deploy Flask backend lên Render (Blueprint).
+# Repo root = TaylorAI → backend nằm trong fashion-app/backend
+services:
+  - type: web
+    name: taylorai-backend
+    runtime: python
+    rootDir: fashion-app/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 180 wsgi:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+      - key: POLLINATIONS_API_KEY
+        sync: false
+      - key: HF_TOKEN
+        sync: false
+      - key: GENERATE_PRIMARY
+        value: gradio
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: FRONTEND_ORIGIN
+        value: https://rd-k9.github.io
