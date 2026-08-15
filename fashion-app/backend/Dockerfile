@@ -16,4 +16,5 @@ ENV PYTHONUNBUFFERED=1
 
 EXPOSE 3000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:3000", "--workers", "2", "--timeout", "180", "wsgi:app"]
+# Render sets $PORT; Free tier: 1 worker to stay within 512MB RAM
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-3000} --workers 1 --timeout 180 wsgi:app"]
